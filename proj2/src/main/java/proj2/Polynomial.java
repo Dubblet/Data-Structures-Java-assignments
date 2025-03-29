@@ -9,6 +9,18 @@ public class Polynomial {
         monomial = null;
     }
 
+    // Constructor converts string Polynomial to linked list of Monomials.
+    public Polynomial(String poly) {
+        String[] monomials = poly.split("[+\\-*/]");
+        this.monomial = convertToNode(monomials[0]);
+        Node currentNode = this.monomial;
+        for (int i = 1; i < monomials.length; i++) {
+            Node newNode = convertToNode(monomials[i]);
+            currentNode.setNextNode(newNode);
+            currentNode = currentNode.getNextNode();
+        }
+    }
+
     // Copy Constructor
     public Polynomial(Polynomial otherPoly) {
         Node otherPolyNode = otherPoly.monomial;
@@ -33,4 +45,18 @@ public class Polynomial {
         this.monomial = monomial;
     }
 
+    public Node convertToNode(String mono) {
+        int expo;
+        if (!mono.contains("x")) {
+            expo = 0;
+        } else if (mono.contains("^")) {
+            expo = Integer.parseInt(mono.substring(mono.indexOf("^") + 1));
+        } else {
+            expo = 1;
+        }
+        int coef = Integer.parseInt(mono.substring(0, mono.indexOf("x") - 1));
+
+        return new Node(expo, coef);
+    }
+    
 }
