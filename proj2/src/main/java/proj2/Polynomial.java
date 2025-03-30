@@ -1,5 +1,7 @@
 package proj2;
 
+import java.util.LinkedList;
+
 public class Polynomial {
     // Fields
     private Node monomial;
@@ -11,7 +13,7 @@ public class Polynomial {
 
     // Constructor converts string Polynomial to linked list of Monomials.
     public Polynomial(String poly) {
-        String[] monomials = poly.split("[+\\-*/]");
+        String[] monomials = poly.split("\\+");
         this.monomial = convertToNode(monomials[0]);
         Node currentNode = this.monomial;
         for (int i = 1; i < monomials.length; i++) {
@@ -57,6 +59,25 @@ public class Polynomial {
         int coef = Integer.parseInt(mono.substring(0, mono.indexOf("x") - 1));
 
         return new Node(expo, coef);
+    }
+
+    public void print() {
+        Node current = this.monomial;
+        while (current != null) {
+            StringBuilder polyString = new StringBuilder();
+            polyString.append(current.getCoefficient());
+            if (current.getExponent() == 1) {
+                polyString.append("x");
+            } else if (current.getExponent() > 1) {
+                polyString.append("x^");
+                polyString.append(current.getExponent());
+            }
+            if (current.getNextNode() != null) {
+                polyString.append("+");
+            }
+            System.out.println(polyString);
+            current = current.getNextNode();
+        }
     }
     
 }
