@@ -1,21 +1,19 @@
 package proj2;
 
-import java.util.LinkedList;
-
 public class Polynomial {
     // Fields
-    private Node monomial;
+    private Node header;
 
     // Constructor
     public Polynomial() {
-        monomial = null;
+        header = null;
     }
 
     // Constructor converts string Polynomial to linked list of Monomials.
     public Polynomial(String poly) {
         String[] monomials = poly.split("\\+");
-        this.monomial = convertToNode(monomials[0]);
-        Node currentNode = this.monomial;
+        this.header = convertToNode(monomials[0]);
+        Node currentNode = this.header;
         for (int i = 1; i < monomials.length; i++) {
             Node newNode = convertToNode(monomials[i]);
             currentNode.setNextNode(newNode);
@@ -25,9 +23,9 @@ public class Polynomial {
 
     // Copy Constructor
     public Polynomial(Polynomial otherPoly) {
-        Node otherPolyNode = otherPoly.monomial;
+        Node otherPolyNode = otherPoly.getHeader();
         Node newMonomial = new Node(otherPolyNode.getExponent(), otherPolyNode.getCoefficient());
-        this.monomial = newMonomial;
+        this.header = newMonomial;
         Node currentNode = newMonomial;
 
         while (otherPolyNode.getNextNode() != null) {
@@ -39,12 +37,12 @@ public class Polynomial {
     }
 
     // Getters and Setters
-    public Node getMonomial() {
-        return monomial;
+    public Node getHeader() {
+        return header;
     }
 
-    public void setMonomial(Node monomial) {
-        this.monomial = monomial;
+    public void setHeader(Node header) {
+        this.header = header;
     }
 
     public Node convertToNode(String mono) {
@@ -62,7 +60,7 @@ public class Polynomial {
     }
 
     public void print() {
-        Node current = this.monomial;
+        Node current = this.header;
         while (current != null) {
             StringBuilder polyString = new StringBuilder();
             polyString.append(current.getCoefficient());
@@ -79,5 +77,48 @@ public class Polynomial {
             current = current.getNextNode();
         }
     }
-    
+
+    public static Polynomial add(Polynomial poly1, Polynomial poly2) {
+        Polynomial result = new Polynomial(poly1);
+        Node resultPointer = result.getHeader();
+        Node poly2Pointer = poly2.getHeader();
+        // Add together the two polynomials
+        while (poly2Pointer != null) {
+            if (resultPointer == null) {
+                resultPointer = new Node(poly2Pointer.getExponent(), poly2Pointer.getCoefficient());
+            }
+            if (resultPointer.getExponent() == poly2Pointer.getExponent()) {
+                resultPointer.setCoefficient(resultPointer.getCoefficient() + poly2Pointer.getCoefficient());
+                resultPointer = resultPointer.getNextNode();
+                poly2Pointer = poly2Pointer.getNextNode();
+            } else if (resultPointer.getExponent() > poly2Pointer.getExponent()) {
+                resultPointer = resultPointer.getNextNode();
+            } else if (resultPointer.getExponent() < poly2Pointer.getExponent()) {
+                Node newNode = new Node(poly2Pointer.getExponent(), poly2Pointer.getCoefficient());
+                newNode.setNextNode(resultPointer.getNextNode());
+                resultPointer.setNextNode(newNode);
+            }
+        }
+        // Sort to ensure they are in descending order of exponents
+        while (resultPointer != null) {
+            Node sorter = resultPointer.getNextNode();
+            Node maxExpo = resultPointer;
+            while (sorter != null) {
+                if (sorter.getExponent() > maxExpo.getExponent()) {
+                    maxExpo = sorter;
+                }
+                sorter = sorter.getNextNode();
+            }
+            int tempExpo = resultPointer.getExponent();
+            int tempCoef = resultPointer.getCoefficient();
+            resultPointer.setExponent(maxExpo.getExponent());
+            resultPointer.setCoefficient(maxExpo.getCoefficient());
+            maxExpo.setExponent(tempExpo);
+            maxExpo.setCoefficient(tempCoef);
+            resultPointer = resultPointer.getNextNode();
+        }
+
+        return result;
+    }
+
 }
