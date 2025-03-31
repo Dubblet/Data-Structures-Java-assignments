@@ -1,3 +1,8 @@
+// Steven Bruce
+// CIS-2353
+// Winter 2025
+// Project 2
+
 package proj2;
 
 import java.io.File;
@@ -37,7 +42,7 @@ public class PolynomialAddTest {
             selection2 = Integer.parseInt(numbersText[1]);
             // Check for if user input is out of bounds.
             if (selection1 >= polynomials.size() || selection2 >= polynomials.size()) {
-                System.out.println("Input Invalid! One of your entries was out of range.");
+                System.out.println("Input Invalid! One of your entries was out of range. Please enter new indexes.");
             } else {
                 // Add the polynomials together, put that new result in the ArrayList, and print the new list again, re-prompting the user.
                 Polynomial result = Polynomial.add(polynomials.get(selection1), polynomials.get(selection2));
@@ -56,6 +61,6 @@ public class PolynomialAddTest {
             System.out.print(polynomials.indexOf(poly) + ":   ");
             poly.print();
         }
-        System.out.println("\nWhich do you wish to add? Enter two indexs with a space between them to add those Polynomials together. Enter -1 to Exit.");
+        System.out.println("\nWhich do you wish to add? Enter two indexes with a space between them to add those Polynomials together. Enter -1 to Exit.");
     }
 }

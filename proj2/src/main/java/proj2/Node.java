@@ -1,3 +1,8 @@
+// Steven Bruce
+// CIS-2353
+// Winter 2025
+// Project 2
+
 package proj2;
 
 public class Node {
