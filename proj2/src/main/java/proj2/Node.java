@@ -6,6 +6,7 @@ public class Node {
     private int coefficient;
     private Node nextNode;
 
+    // Constructor taking in 2 numbers for an exponent and a coefficient.
     public Node(int exponent, int coefficient) {
         this.exponent = exponent;
         this.coefficient = coefficient;
