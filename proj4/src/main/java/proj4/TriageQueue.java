@@ -19,7 +19,7 @@ public class TriageQueue<T> extends AbstractQueue<T> {
         this.elements = new LinkedList<T>();
     }
 
-    // Overriding required methods for Queues.
+    // Overriding required methods for AbstractQueues.
     @Override
     public Iterator<T> iterator() {
         return elements.iterator();
